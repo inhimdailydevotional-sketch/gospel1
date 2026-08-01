@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { supabase } from '@/lib/supabase';
+import { getSupabaseClient } from '@/lib/supabase';
 import { Users, Mail, Heart, MessageSquare, BookOpen, RefreshCw, Rocket, ExternalLink, CheckCircle2, AlertCircle, HandHeart } from 'lucide-react';
 
 type FreeSampleLead = { id: string; first_name: string; email: string; source: string; status: string; created_at: string; };
@@ -64,6 +64,7 @@ export default function AdminPage() {
     setLoadError('');
 
     try {
+      const supabase = getSupabaseClient();
       const [l, n, pp, pr, m, d] = await Promise.all([
         supabase.from('free_sample_leads').select('*').order('created_at', { ascending: false }),
         supabase.from('newsletter_subscribers').select('*').order('created_at', { ascending: false }),
